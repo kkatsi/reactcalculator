@@ -1,0 +1,49 @@
+.Screen {
+  height: 100px;
+  max-width: 100%;
+  line-height: 100px;
+  text-align: right;
+  margin: auto;
+  font-size: 400%;
+  font-family: "Roboto Mono";
+}
+
+.numsContainer {
+  float: left;
+  width: 60%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  flex-direction: row-reverse;
+}
+
+.symbsetContainer {
+  width: 40%;
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  flex-direction: row;
+}
+
+.Button {
+  padding: 10px;
+  margin-top: 5px;
+  color: black;
+  font-weight: bold;
+  font-size: 3em;
+  text-align: center;
+}
+
+.numsContainer > .Button {
+  width: 33.3%;
+  flex-grow: 1;
+}
+
+.symbsetContainer > .Button {
+  width: 50%;
+}
+
+.clearContainer > .Button {
+  width: 50%;
+}
