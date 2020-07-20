@@ -1,17 +1,34 @@
+body{
+  background-color: #ffebd2;
+}
+
 .App {
   margin: 10%;
   margin-left: 40%;
   margin-right: 40%;
+  border-right: 1px solid #646464;
+border-bottom: 1px solid #343434;
+border-left: 1px solid #646464;
+border-top: 1px solid #939393;
+border-radius: 10px;
+
+}
+
+*:focus {
+    outline: 0;
 }
 
 .Screen {
-  height: 100px;
+  height: 80px;
   max-width: 100%;
-  line-height: 100px;
+  line-height: 80px;
   text-align: right;
   margin: auto;
-  font-size: 400%;
-  font-family: "Roboto Mono";
+  font-size: 3em;
+  font-family: "HelveticaNeue-UltraLight", "Helvetica Ultra Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #ffffff;
+  background-color: rgba(75,75,75,.65);
+  border-radius: 10px 10px 0px 0px;
 }
 
 .numsContainer {
@@ -34,22 +51,47 @@
 
 .Button {
   padding: 10px;
-  margin-top: 5px;
-  color: black;
-  font-weight: bold;
-  font-size: 3em;
+  border: 1px solid rgba(75,75,75,.25);
+  font-family: "HelveticaNeue-UltraLight", "Helvetica Ultra Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 2em;
+  color: #000000;
   text-align: center;
 }
 
 .numsContainer > .Button {
   width: 33.3%;
   flex-grow: 1;
+  background-color: #e0e0e0;
+}
+
+.numsContainer > button:active {
+
+  background-color: #b8b8b8;
+}
+
+.numsContainer > button:last-child {
+  border-radius: 0px 0px 0px 10px;
 }
 
 .symbsetContainer > .Button {
   width: 50%;
+  background-color: #ff8c00;
+  color: #ffffff;
+}
+
+.symbsetContainer > button:last-child {
+  border-radius: 0px 0px 10px 0px;
+}
+
+.symbsetContainer > button:active {
+  background-color: #945100;
 }
 
 .clearContainer > .Button {
   width: 50%;
+  background-color: #e0e0e0;
+}
+
+.clearContainer > button:active {
+  background-color: #b8b8b8;
 }
