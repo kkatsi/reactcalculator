@@ -1,3 +1,9 @@
+.App {
+  margin: 10%;
+  margin-left: 40%;
+  margin-right: 40%;
+}
+
 .Screen {
   height: 100px;
   max-width: 100%;

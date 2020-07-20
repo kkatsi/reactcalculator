@@ -31,6 +31,11 @@ class App extends React.Component {
     };
   }
 
+  checklength(e){
+    if((this.state.scrValue + e.target.value).length>10)
+      this.setState({scrValue: this.state.scrValue.substring(0,10)});
+  }
+
   //tests if a string contains only integer of float numbers
   checkString(value) {
     if (/^\d+\.\d+$/.test(value) || /^\d+$/.test(value)) return true;
@@ -80,7 +85,6 @@ class App extends React.Component {
   }
 
   updateScreen(e) {
-    console.log(flag);
 
     switch (e.target.value) {
       case "C": {
@@ -123,26 +127,6 @@ class App extends React.Component {
           this.setState({
             scrValue: this.state.scrValue + "."
           });
-        // console.log(this.state.scrValue.split(this.state.operator)[1]);
-        // if (
-        //   (!this.state.scrValue.split(this.state.operator)[0].includes(".") &&
-        //     this.checkString(this.state.scrValue)) ||
-        //   (!this.checkString(this.state.scrValue) &&
-        //     !this.state.scrValue.split(this.state.operator)[1].includes(".") &&
-        //     this.state.scrValue.split(this.state.operator)[1] !== "")
-        // ) {
-        //   this.setState({
-        //     scrValue: this.state.scrValue + e.target.value
-        //   });
-        // }
-
-        // if (
-        //   !this.state.scrValue.split(this.state.operator)[0].includes(".") &&
-        //   this.state.scrValue.split(this.state.operator)[1] === ""
-        // )
-        //   this.setState({
-        //     scrValue: this.state.scrValue.slice(0, -1) + e.target.value
-        //   });
         break;
       }
       case "+": {
@@ -234,6 +218,7 @@ class App extends React.Component {
         break;
       }
       case "%": {
+
         if (this.checkString(this.state.scrValue))
           this.setState({ scrValue: "0" });
         else if (this.checkString(this.state.scrValue.slice(0, -1)))
@@ -271,10 +256,11 @@ class App extends React.Component {
                   100
               )
           });
+          this.checklength(e);
         break;
       }
       case "=": {
-        flag = true;
+        this.checklength(e);
         if (this.checkString(this.state.scrValue)) break;
         if (this.state.scrValue.slice(-1) === ".") {
           this.setState({ scrValue: this.state.scrValue.slice(0, -1) });
@@ -288,21 +274,25 @@ class App extends React.Component {
             )
           });
         else this.replacesymbol("");
-
+        flag = true;
         break;
       }
       default: {
         //check if '0' is the initial value
+
         this.state.scrValue === "0" ||
         (flag && this.checkString(this.state.scrValue))
           ? this.setState({ scrValue: e.target.value })
           : this.setState({ scrValue: this.state.scrValue + e.target.value });
 
         flag = false;
+        this.checklength(e);
+
 
         break;
       }
     }
+
   }
 
   render() {
