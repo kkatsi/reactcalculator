@@ -37,7 +37,7 @@ border-radius: 10px;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
-  flex-direction: row-reverse;
+  flex-direction: row-reverse !important;
 }
 
 .symbsetContainer {
