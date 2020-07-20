@@ -16,10 +16,10 @@ const operations = {
     return a - b;
   },
   "*": function(a, b) {
-    return a * b;
+    return (a * b).toPrecision(10);
   },
   "/": function(a, b) {
-    return a / b;
+    return (a / b).toPrecision(10);
   }
 };
 
@@ -189,10 +189,10 @@ class App extends React.Component {
       }
       case "√": {
         if (this.checkString(this.state.scrValue))
-          this.setState({ scrValue: String(Math.sqrt(this.state.scrValue)) });
+          this.setState({ scrValue: String(Math.sqrt(this.state.scrValue).toPrecision(6)) });
         else if (this.checkString(this.state.scrValue.slice(0, -1)))
           this.setState({
-            scrValue: String(Math.sqrt(this.state.scrValue.slice(0, -1)))
+            scrValue: String(Math.sqrt(this.state.scrValue.slice(0, -1).toPrecision(6)))
           });
         else
           this.setState({
@@ -212,7 +212,7 @@ class App extends React.Component {
                       this.state.scrValue.includes(operator)
                     )
                   )[1]
-                )
+                ).toPrecision(6)
               )
           });
         break;
@@ -226,9 +226,9 @@ class App extends React.Component {
             scrValue:
               this.state.scrValue +
               String(
-                (this.state.scrValue.slice(0, -1) *
+                ((this.state.scrValue.slice(0, -1) *
                   this.state.scrValue.slice(0, -1)) /
-                  100
+                  100).toPrecision(6)
               )
           });
         else
@@ -243,7 +243,7 @@ class App extends React.Component {
                 this.state.scrValue.includes(operator)
               ) +
               String(
-                (this.state.scrValue.split(
+                ((this.state.scrValue.split(
                   operators.filter(operator =>
                     this.state.scrValue.includes(operator)
                   )
@@ -253,7 +253,7 @@ class App extends React.Component {
                       this.state.scrValue.includes(operator)
                     )
                   )[1]) /
-                  100
+                  100).toPrecision(6)
               )
           });
           this.checklength(e);
