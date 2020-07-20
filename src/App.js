@@ -32,8 +32,8 @@ class App extends React.Component {
   }
 
   checklength(e){
-    if((this.state.scrValue + e.target.value).length>10)
-      this.setState({scrValue: this.state.scrValue.substring(0,10)});
+    if((this.state.scrValue + e.target.value).length>14)
+      this.setState({scrValue: this.state.scrValue.substring(0,14)});
   }
 
   //tests if a string contains only integer of float numbers
