@@ -32,8 +32,8 @@ class App extends React.Component {
   }
 
   checklength(e){
-    if((this.state.scrValue + e.target.value).length>14)
-      this.setState({scrValue: this.state.scrValue.substring(0,14)});
+    if((this.state.scrValue + e.target.value).length>10)
+      this.setState({scrValue: this.state.scrValue.substring(0,10)});
   }
 
   //tests if a string contains only integer of float numbers
@@ -189,10 +189,10 @@ class App extends React.Component {
       }
       case "√": {
         if (this.checkString(this.state.scrValue))
-          this.setState({ scrValue: String(Math.sqrt(this.state.scrValue).toPrecision(6)) });
+          this.setState({ scrValue: String(Math.sqrt(this.state.scrValue).toPrecision(4)) });
         else if (this.checkString(this.state.scrValue.slice(0, -1)))
           this.setState({
-            scrValue: String(Math.sqrt(this.state.scrValue.slice(0, -1).toPrecision(6)))
+            scrValue: String(Math.sqrt(this.state.scrValue.slice(0, -1).toPrecision(4)))
           });
         else
           this.setState({
@@ -212,7 +212,7 @@ class App extends React.Component {
                       this.state.scrValue.includes(operator)
                     )
                   )[1]
-                ).toPrecision(6)
+                ).toPrecision(10)
               )
           });
         break;
@@ -253,7 +253,7 @@ class App extends React.Component {
                       this.state.scrValue.includes(operator)
                     )
                   )[1]) /
-                  100).toPrecision(6)
+                  100).toPrecision(10)
               )
           });
           this.checklength(e);
@@ -299,19 +299,21 @@ class App extends React.Component {
     return (
       <div className="App">
         <Screen scrValue={this.state.scrValue} />
-        <div className="clearContainer">
-          <Button text={"←"} onClick={e => this.updateScreen(e)} />
-          <Button text={"C"} onClick={e => this.updateScreen(e)} />
-        </div>
-        <div className="numsContainer">
-          {nums.map(num => (
-            <Button text={num} onClick={e => this.updateScreen(e)} />
-          ))}
-        </div>
-        <div className="symbsetContainer">
-          {symbset.map(symb => (
-            <Button text={symb} onClick={e => this.updateScreen(e)} />
-          ))}
+        <div className="keypad">
+          <div className="clearContainer">
+            <Button text={"←"} onClick={e => this.updateScreen(e)} />
+            <Button text={"C"} onClick={e => this.updateScreen(e)} />
+          </div>
+          <div className="numsContainer">
+            {nums.map(num => (
+              <Button text={num} onClick={e => this.updateScreen(e)} />
+            ))}
+          </div>
+          <div className="symbsetContainer">
+            {symbset.map(symb => (
+              <Button text={symb} onClick={e => this.updateScreen(e)} />
+            ))}
+          </div>
         </div>
       </div>
     );
