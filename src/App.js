@@ -6,20 +6,21 @@ import "./styles.css";
 let flag = false;
 const nums = Array.from(Array(10).keys()).reverse();
 const symbset = ["=", ".", "-", "+", "*", "/", "%", "√"].reverse();
+
 const operators = ["+", "-", "*", "/"];
 //create 'operations' so operators and their functions can exists as variables
 const operations = {
   "+": function(a, b) {
-    return a + b;
+    return String(a + b);
   },
   "-": function(a, b) {
-    return a - b;
+    return String(a - b);
   },
   "*": function(a, b) {
-    return (a * b).toPrecision(10);
+    return String(a * b).substring(0, 10);
   },
   "/": function(a, b) {
-    return (a / b).toPrecision(10);
+    return String(a / b).substring(0, 10);
   }
 };
 
@@ -31,9 +32,11 @@ class App extends React.Component {
     };
   }
 
-  checklength(e){
-    if((this.state.scrValue + e.target.value).length>10)
-      this.setState({scrValue: this.state.scrValue.substring(0,10)});
+  checklength(e) {
+    if ((this.state.scrValue + e.target.value).length > 10)
+      this.setState({
+        scrValue: this.state.scrValue.substring(0, 10)
+      });
   }
 
   //tests if a string contains only integer of float numbers
@@ -47,18 +50,18 @@ class App extends React.Component {
     // if there is an operator at the end of the string and the rest is a number,
     // then the prexisted operator is replaced by the new operator clicked by user.
     if (this.checkString(this.state.scrValue.slice(0, -1)))
-      this.setState({ scrValue: this.state.scrValue.slice(0, -1) + symb });
-    //else means that there is already an operator between 2 numbers in the screen and a second
+      this.setState({
+        scrValue: this.state.scrValue.slice(0, -1) + symb
+      });
     //one comes in. The first in place operation completes and the sybmol of the
-    //new operation is added at the end of the result.
+    //new operation is added at the end of the result. //else means that there is already an operator between 2 numbers in the screen and a second
     else {
       this.setState({
         scrValue:
           //operations object has every possible operation, so we specify the operator
           //by filtering operators array with the operator that is already included in
           //the screen string and the 2 numbers needed for the operation are being given
-          operations[
-            //getting the operator that exist in the string
+          operations[ //getting the operator that exist in the string
             operators.filter(operator => this.state.scrValue.includes(operator))
           ](
             //transform string to number
@@ -85,10 +88,11 @@ class App extends React.Component {
   }
 
   updateScreen(e) {
-
     switch (e.target.value) {
       case "C": {
-        this.setState({ scrValue: "0" });
+        this.setState({
+          scrValue: "0"
+        });
         break;
       }
       case "←": {
@@ -98,31 +102,38 @@ class App extends React.Component {
             scrValue: this.state.scrValue.slice(0, -1),
             symb: null
           });
-        else this.setState({ scrValue: "0" });
+        else
+          this.setState({
+            scrValue: "0"
+          });
         break;
       }
       case ".": {
-        if (
-          this.checkString(this.state.scrValue) &&
-          !this.state.scrValue.includes(".")
-        )
-          this.setState({ scrValue: this.state.scrValue + "." });
+        if (this.checkString(Number(this.state.scrValue + e.target.value)))
+          this.setState({
+            scrValue: this.state.scrValue + "."
+          });
         else if (
           this.checkString(this.state.scrValue.slice(0, -1)) &&
           !this.state.scrValue.includes(".")
         )
           this.setState({ scrValue: this.state.scrValue.slice(0, -1) + "." });
         else if (
+          operators.filter(operator =>
+            this.state.scrValue.includes(operator)
+          ) != "" &&
           this.state.scrValue.split(
             operators.filter(operator => this.state.scrValue.includes(operator))
           )[1].length > 0 &&
-          !this.state.scrValue
-            .split(
-              operators.filter(operator =>
-                this.state.scrValue.includes(operator)
-              )
-            )[1]
-            .includes(".")
+          this.checkString(
+            Number(
+              this.state.scrValue.split(
+                operators.filter(operator =>
+                  this.state.scrValue.includes(operator)
+                )
+              )[1] + e.target.value
+            )
+          )
         )
           this.setState({
             scrValue: this.state.scrValue + "."
@@ -138,7 +149,9 @@ class App extends React.Component {
                 .reduce((a, b) => Number(a) + Number(b)) + "+"
           });
         if (this.checkString(this.state.scrValue))
-          this.setState({ scrValue: this.state.scrValue + e.target.value });
+          this.setState({
+            scrValue: this.state.scrValue + e.target.value
+          });
         else this.replacesymbol("+");
         break;
       }
@@ -151,7 +164,9 @@ class App extends React.Component {
                 .reduce((a, b) => Number(a) - Number(b)) + "-"
           });
         if (this.checkString(this.state.scrValue))
-          this.setState({ scrValue: this.state.scrValue + e.target.value });
+          this.setState({
+            scrValue: this.state.scrValue + e.target.value
+          });
         else this.replacesymbol("-");
         break;
       }
@@ -167,7 +182,9 @@ class App extends React.Component {
                 .reduce((a, b) => Number(a) * Number(b)) + "*"
           });
         if (this.checkString(this.state.scrValue))
-          this.setState({ scrValue: this.state.scrValue + e.target.value });
+          this.setState({
+            scrValue: this.state.scrValue + e.target.value
+          });
         else this.replacesymbol("*");
         break;
       }
@@ -183,16 +200,22 @@ class App extends React.Component {
                 .reduce((a, b) => Number(a) / Number(b)) + "/"
           });
         if (this.checkString(this.state.scrValue))
-          this.setState({ scrValue: this.state.scrValue + e.target.value });
+          this.setState({
+            scrValue: this.state.scrValue + e.target.value
+          });
         else this.replacesymbol("/");
         break;
       }
       case "√": {
         if (this.checkString(this.state.scrValue))
-          this.setState({ scrValue: String(Math.sqrt(this.state.scrValue).toPrecision(4)) });
+          this.setState({
+            scrValue: String(Math.sqrt(this.state.scrValue)).substring(0, 10)
+          });
         else if (this.checkString(this.state.scrValue.slice(0, -1)))
           this.setState({
-            scrValue: String(Math.sqrt(this.state.scrValue.slice(0, -1).toPrecision(4)))
+            scrValue: String(
+              Math.sqrt(this.state.scrValue.slice(0, -1))
+            ).substring(0, 10)
           });
         else
           this.setState({
@@ -212,24 +235,25 @@ class App extends React.Component {
                       this.state.scrValue.includes(operator)
                     )
                   )[1]
-                ).toPrecision(10)
+                ).substring(0, 10)
               )
           });
         break;
       }
       case "%": {
-
         if (this.checkString(this.state.scrValue))
-          this.setState({ scrValue: "0" });
+          this.setState({
+            scrValue: "0"
+          });
         else if (this.checkString(this.state.scrValue.slice(0, -1)))
           this.setState({
             scrValue:
               this.state.scrValue +
               String(
-                ((this.state.scrValue.slice(0, -1) *
+                (this.state.scrValue.slice(0, -1) *
                   this.state.scrValue.slice(0, -1)) /
-                  100).toPrecision(6)
-              )
+                  100
+              ).substring(0, 6)
           });
         else
           this.setState({
@@ -243,7 +267,7 @@ class App extends React.Component {
                 this.state.scrValue.includes(operator)
               ) +
               String(
-                ((this.state.scrValue.split(
+                (this.state.scrValue.split(
                   operators.filter(operator =>
                     this.state.scrValue.includes(operator)
                   )
@@ -253,17 +277,18 @@ class App extends React.Component {
                       this.state.scrValue.includes(operator)
                     )
                   )[1]) /
-                  100).toPrecision(10)
-              )
+                  100
+              ).substring(0, 10)
           });
-          this.checklength(e);
         break;
       }
       case "=": {
         this.checklength(e);
         if (this.checkString(this.state.scrValue)) break;
         if (this.state.scrValue.slice(-1) === ".") {
-          this.setState({ scrValue: this.state.scrValue.slice(0, -1) });
+          this.setState({
+            scrValue: this.state.scrValue.slice(0, -1)
+          });
           break;
         }
         if (this.checkString(this.state.scrValue.slice(0, -1)))
@@ -282,39 +307,43 @@ class App extends React.Component {
 
         this.state.scrValue === "0" ||
         (flag && this.checkString(this.state.scrValue))
-          ? this.setState({ scrValue: e.target.value })
-          : this.setState({ scrValue: this.state.scrValue + e.target.value });
+          ? this.setState({
+              scrValue: e.target.value
+            })
+          : this.setState({
+              scrValue: this.state.scrValue + e.target.value
+            });
 
         flag = false;
         this.checklength(e);
 
-
         break;
       }
     }
-
   }
 
   render() {
     return (
       <div className="App">
-        <Screen scrValue={this.state.scrValue} />
+        <Screen scrValue={this.state.scrValue} />{" "}
         <div className="keypad">
           <div className="clearContainer">
-            <Button text={"←"} onClick={e => this.updateScreen(e)} />
-            <Button text={"C"} onClick={e => this.updateScreen(e)} />
-          </div>
+            <Button text={"←"} onClick={e => this.updateScreen(e)} />{" "}
+            <Button text={"C"} onClick={e => this.updateScreen(e)} />{" "}
+          </div>{" "}
           <div className="numsContainer">
+            {" "}
             {nums.map(num => (
               <Button text={num} onClick={e => this.updateScreen(e)} />
-            ))}
-          </div>
+            ))}{" "}
+          </div>{" "}
           <div className="symbsetContainer">
+            {" "}
             {symbset.map(symb => (
               <Button text={symb} onClick={e => this.updateScreen(e)} />
-            ))}
-          </div>
-        </div>
+            ))}{" "}
+          </div>{" "}
+        </div>{" "}
       </div>
     );
   }
